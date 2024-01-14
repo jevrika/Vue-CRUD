@@ -11,9 +11,13 @@
     <span @click="showButtons = !showButtons" class="material-icons"> keyboard_arrow_down </span>
 
     <div v-if="showButtons" class="buttonsWrap">
-      <span class="material-icons"> import_contacts </span>
+      <router-link class="link" :to="{ name: 'BookDetails', params: { id: book.id } }">
+        <span class="material-icons"> import_contacts </span>
+      </router-link>
       <span @click="deleteBook" class="material-icons"> delete </span>
-      <span class="material-icons"> edit </span>
+      <router-link class="link" :to="{ name: 'EditBook', params: { id: book.id } }">
+        <span class="material-icons"> edit </span>
+      </router-link>
     </div>
   </div>
 </template>
@@ -91,5 +95,8 @@ h1 {
 }
 .material-icons:hover {
   opacity: 0.5;
+}
+.link {
+  color:black
 }
 </style>
