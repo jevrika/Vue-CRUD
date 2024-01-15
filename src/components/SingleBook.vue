@@ -8,13 +8,19 @@
       <p>{{ book.author }}</p>
     </div>
 
+    <div class="genres">
+      <span v-for="genre in book.genres" :key="genre">{{ genre }}</span>
+    </div>
+
     <span @click="showButtons = !showButtons" class="material-icons"> keyboard_arrow_down </span>
 
     <div v-if="showButtons" class="buttonsWrap">
       <router-link class="link" :to="{ name: 'BookDetails', params: { id: book.id } }">
         <span class="material-icons"> import_contacts </span>
       </router-link>
-      <span @click="deleteBook" class="material-icons"> delete </span>
+
+      <span @click="deleteBookHandler" class="material-icons"> delete </span>
+
       <router-link class="link" :to="{ name: 'EditBook', params: { id: book.id } }">
         <span class="material-icons"> edit </span>
       </router-link>
@@ -23,20 +29,20 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import deleteBook from '../composables/deleteBook';
 export default {
   props: ['book'],
-  data() {
-    return {
-      showButtons: false,
-      uri: `http://localhost:3000/books/${this.book.id}`,
+  setup(props) {
+    const showButtons = ref(false);
+    const { error, load } = deleteBook(props.book.id);
+
+    const deleteBookHandler = async () => {
+      await load(); 
+      location.reload()
     };
-  },
-  methods: {
-    deleteBook() {
-      fetch(this.uri, { method: 'DELETE' })
-        .then(() => this.$emit('delete', this.book.id))
-        .catch((error) => console.log(error.message));
-    },
+
+    return { showButtons, error,deleteBookHandler };
   },
 };
 </script>
@@ -97,6 +103,13 @@ h1 {
   opacity: 0.5;
 }
 .link {
-  color:black
+  color: black;
+}
+
+.genres {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
 }
 </style>

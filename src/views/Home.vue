@@ -1,46 +1,43 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="home">
-    <div class="booksList" v-if="books.length">
-      <div v-for="book in books" :key="book.id">
-        <SingleBook :book="book" @delete="handleDelete" />
-      </div>
+    <div v-if="error">
+      <h1>{{ error }}</h1>
+    </div>
+    <div class="bookList" v-if="books.length">
+      <BookList :books="books" />
+    </div>
+    <div v-else>
+      <Spinner />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { Book } from '../Book';
-import SingleBook from '../components/SingleBook.vue';
+<script>
+import { defineComponent, onUpdated } from 'vue';
+import BookList from '../components/BookList.vue';
+import getBooks from '../composables/getBooks';
+import Spinner from '../components/Spinner.vue';
 
 export default defineComponent({
-  name: 'HomePage',
-  components: { SingleBook },
-  data() {
-    return {
-      books: [] as Book[],
-    };
-  },
-  mounted() {
-    fetch('http://localhost:3000/books')
-      .then((response) => response.json())
-      .then((data) => (this.books = data))
-      .catch((error) => console.log(error.message));
-  },
-  methods: {
-    handleDelete(id: number) {
-      this.books = this.books.filter((book) => {
-        return book.id !== id;
-      });
-    },
+  components: { BookList, Spinner },
+  setup() {
+    const { books, error, load } = getBooks();
+
+    load();
+    //   onUpdated(() => {
+    //     load();
+    // });
+
+    return { books, error };
   },
 });
 </script>
 
-<style scoped>
-.booksList {
+<style>
+.bookList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   flex-direction: column;
   gap: 35px;
   margin: 0 auto;
