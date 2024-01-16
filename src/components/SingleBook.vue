@@ -19,34 +19,26 @@
         <span class="material-icons"> import_contacts </span>
       </router-link>
 
-      <span @click="deleteBookHandler" class="material-icons"> delete </span>
+      <span @click="$emit('bookDeleted', book.id)" class="material-icons"> delete </span>
 
       <router-link class="link" :to="{ name: 'EditBook', params: { id: book.id } }">
         <span class="material-icons"> edit </span>
       </router-link>
     </div>
   </div>
-
 </template>
 
-<script setup>
-import { ref, defineProps } from 'vue';
-import deleteBook from '../composables/deleteBook';
+<script setup lang="ts">
+import { defineProps, ref } from 'vue';
 
-const props = defineProps({
-  book: {},
+defineProps({
+  book: {
+    type: Object,
+    required: true,
+  },
 });
 
 const showButtons = ref(false);
-const { error, deleteBookById } = deleteBook(props.book.id);
-
-const deleteBookHandler = async () => {
-  await deleteBookById();
-
-  // location.reload();
-  return { showButtons, error, deleteBookHandler };
-};
-
 </script>
 
 <style scoped>

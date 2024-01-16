@@ -3,13 +3,10 @@
   <router-view />
 </template>
 
-<script>
+<script setup lang="ts">
 import Navbar from './components/Navbar.vue'
-export default {
-  components: {Navbar}
-  
-}
 </script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

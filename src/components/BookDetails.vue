@@ -25,21 +25,57 @@
         </p>
       </div>
     </div>
+    <span @click="showButtons = !showButtons" class="material-icons"> keyboard_arrow_down </span>
+
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
+      <div v-if="showButtons" class="buttonsWrap">
+      <router-link class="link" :to="{ name: 'BookDetails', params: { id: book.id } }">
+        <span class="material-icons"> import_contacts </span>
+      </router-link>
+
+      <span @click="deleteBookHandler" class="material-icons"> delete </span>
+       <!-- <span @click="$emit('delete-book', book.id)" class="material-icons"> delete </span> -->
+
+      <router-link class="link" :to="{ name: 'EditBook', params: { id: book.id } }">
+        <span class="material-icons"> edit </span>
+      </router-link>
+    </div>
   </div>
   <div v-else>
     <LoadingSpinner />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import LoadingSpinner from './LoadingSpinner.vue';
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
+import deleteBook from '../composables/deleteBook';
+import { useRoute,useRouter } from 'vue-router';
 defineProps({
-  book: {},
+  book: {
+    type: Object,
+    required: true
+  },
   error: String,
   id: Number
 })
+
+const route = useRoute();
+const router = useRouter()
+const { id } = route.params;
+const showButtons = ref(false);
+
+const { error, deleteBookById } = deleteBook(Number(id));
+
+
+
+const deleteBookHandler =  () => {
+   deleteBookById();
+
+  router.push('/')
+  return { showButtons, error, deleteBookHandler };
+}
+
 
 </script>
 

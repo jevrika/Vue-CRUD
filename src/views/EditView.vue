@@ -2,7 +2,7 @@
       <EditForm  />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import EditForm from '../components/EditForm.vue'
 </script>
 

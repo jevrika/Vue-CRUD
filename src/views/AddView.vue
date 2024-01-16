@@ -2,12 +2,8 @@
       <AddBook/>
 </template>
 
-<script>
+<script setup lang="ts">
 import AddBook from '../components/AddBook.vue'
-
-export default {
-  components: { AddBook },
-};
 </script>
 
 <style>

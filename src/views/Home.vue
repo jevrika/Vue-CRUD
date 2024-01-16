@@ -5,7 +5,7 @@
       <h1>{{ error }}</h1>
     </div>
     <div class="bookList" v-if="books.length">
-      <BookList :books="books" />
+      <BookList :books="books" @booksUpdated="fromEmit" />
     </div>
     <div v-else>
       <LoadingSpinner />
@@ -13,25 +13,33 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import BookList from '../components/BookList.vue';
 import getBooks from '../composables/getBooks';
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 import { onMounted } from 'vue';
+import deleteBook from '@/composables/deleteBook';
 
 const { books, error, load } = getBooks();
 
-load();
-
+const fromEmit = (params: number) => {
+  deleteBookHandler(params);
+};
 onMounted(() => {
-  load()
-})
+  load();
+});
 
-{ books, error }
+const deleteBookHandler = async (params: number) => {
+  const { deleteBookById } = deleteBook(params);
+  await deleteBookById();
+  load();
+  return { error, deleteBookHandler };
+};
 
-  
+{
+  error;
+}
 </script>
-
 
 <style>
 .bookList {

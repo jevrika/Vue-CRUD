@@ -21,26 +21,27 @@
     <div class="genres" v-for="genre in genres" :key="genre">
       {{ genre }}
     </div>
-    <button class="button" @click='notify'>Add Book</button>
+    <button class="button" @click="notify">Add Book</button>
 
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import addBook from '@/composables/addBook';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import getBooks from '@/composables/getBooks';
 
-const image = ref('');
-const title = ref('');
-const author = ref('');
-const description = ref('');
-const genre = ref('');
-const genres = ref([]);
-const publishing_year = ref('');
+const image = ref<string>('');
+const title = ref<string>('');
+const author = ref<string>('');
+const description = ref<string>('');
+const genre = ref<string>('');
+const genres = ref<string[]>([]);
+const publishing_year = ref<string>('');
 
 const router = useRouter();
 
@@ -52,13 +53,15 @@ const handleKeydown = () => {
   genre.value = '';
 };
 
-  const notify = () => {
-        toast("You added book to book list!", {
-          autoClose: 4000,
-          "theme": "auto",
-        }); 
-      }
-       { notify }
+const notify = () => {
+  toast('You added book to book list!', {
+    autoClose: 4000,
+    theme: 'auto',
+  });
+};
+{
+  notify;
+}
 
 const handleSubmit = async () => {
   const book = {
