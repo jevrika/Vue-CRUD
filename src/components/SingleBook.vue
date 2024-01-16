@@ -26,25 +26,27 @@
       </router-link>
     </div>
   </div>
+
 </template>
 
-<script>
-import { ref } from 'vue';
+<script setup>
+import { ref, defineProps } from 'vue';
 import deleteBook from '../composables/deleteBook';
-export default {
-  props: ['book'],
-  setup(props) {
-    const showButtons = ref(false);
-    const { error, load } = deleteBook(props.book.id);
 
-    const deleteBookHandler = async () => {
-      await load(); 
-      location.reload()
-    };
+const props = defineProps({
+  book: {},
+});
 
-    return { showButtons, error,deleteBookHandler };
-  },
+const showButtons = ref(false);
+const { error, deleteBookById } = deleteBook(props.book.id);
+
+const deleteBookHandler = async () => {
+  await deleteBookById();
+
+  // location.reload();
+  return { showButtons, error, deleteBookHandler };
 };
+
 </script>
 
 <style scoped>

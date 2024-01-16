@@ -13,63 +13,66 @@
     <textarea required v-model="description" class="input"></textarea>
 
     <label for="publishing_year"> Book publishing year </label>
-    <input class="input" type="number" min="1700" max="2099" step="1" value="2000" name="publishing_year" id="publishing_year" required v-model="publishing_year" />
+    <input class="input" type="number" min="1700" max="2099" step="1" name="publishing_year" id="publishing_year" required v-model="publishing_year" />
 
     <label for="genres"> Book genres (Enter to add genre)</label>
-    <input @keydown.enter.prevent="handleKeydown" type="text" v-model="genre" />
+    <input class="input" @keydown.enter.prevent="handleKeydown" type="text" v-model="genre" />
 
-    <div v-for="genre in genres" :key="genre">
+    <div class="genres" v-for="genre in genres" :key="genre">
       {{ genre }}
     </div>
-    <button>Add Book</button>
+    <button class="button" @click='notify'>Add Book</button>
+
+    <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </form>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-export default {
-  setup() {
-    const image = ref('');
-    const title = ref('');
-    const author = ref('');
-    const description = ref('');
-    const genre = ref('');
-    const genres = ref([]);
-    const publishing_year = ref('');
+import addBook from '@/composables/addBook';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
-    const router = useRouter()
+const image = ref('');
+const title = ref('');
+const author = ref('');
+const description = ref('');
+const genre = ref('');
+const genres = ref([]);
+const publishing_year = ref('');
 
-    const handleKeydown = () => {
-      if (!genres.value.includes(genre.value)) {
-        genre.value = genre.value.replace(/\s/, ''); // removes all whitespace
-        genres.value.push(genre.value);
+const router = useRouter();
+
+const handleKeydown = () => {
+  if (!genres.value.includes(genre.value)) {
+    genre.value = genre.value.replace(/\s/, ''); // removes all whitespace
+    genres.value.push(genre.value);
+  }
+  genre.value = '';
+};
+
+  const notify = () => {
+        toast("You added book to book list!", {
+          autoClose: 4000,
+          "theme": "auto",
+        }); 
       }
-      genre.value = '';
-    };
+       { notify }
 
-    const handleSubmit = async () => {
-      const book = {
-        image: image.value,
-        title: title.value,
-        author: author.value,
-        description: description.value,
-        genres: genres.value,
-        publishing_year: publishing_year.value,
-      };
-      const response = await fetch('http://localhost:3000/books', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(book),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to add book');
-      }
-      router.push('/')
-    };
+const handleSubmit = async () => {
+  const book = {
+    image: image.value,
+    title: title.value,
+    author: author.value,
+    description: description.value,
+    genres: genres.value,
+    publishing_year: publishing_year.value,
+  };
 
-    return { image, title, author, description, genre, genres, publishing_year, handleKeydown, handleSubmit };
-  },
+  addBook(book);
+  router.push('/');
+  return { image, title, author, description, genre, genres, publishing_year, handleKeydown, handleSubmit };
 };
 </script>
 
@@ -77,11 +80,59 @@ export default {
 .form {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 10px;
+  padding: 5%;
+  position: relative;
 }
 
 .input {
-  border: 1px solid grey;
+  font-size: 1rem;
   padding: 10px;
+  border: none;
+  border-bottom: 2px solid #2d2d2d93;
+  margin-bottom: 10px;
+  background-color: #eee;
+}
+
+textarea {
+  resize: vertical;
+  width: 100%;
+  height: 200px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+label {
+  display: flex;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.genres {
+  display: flex;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.button {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  border: none;
+  padding: 15px 20px;
+  background-color: #b8d8be;
+  border-radius: 15px;
+}
+.link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: red;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 </style>

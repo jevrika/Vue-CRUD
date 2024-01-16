@@ -1,17 +1,15 @@
 <template>
-    <div v-for="book in books" :key="book.id">
-      <SingleBook :book="book" />
-    </div>
+  <div v-for="book in books.slice().reverse()" :key="book.id">
+    <SingleBook :book="book" />
+  </div>
 </template>
 
-<script>
+<script setup>
 import SingleBook from './SingleBook.vue';
-
-export default {
-  props: ['books'],
-  components: { SingleBook },
-};
+import { defineProps } from 'vue';
+defineProps({
+  books: [],
+});
 </script>
 
-<style>
-</style>
+<style></style>

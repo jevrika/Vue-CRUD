@@ -1,18 +1,19 @@
 import { ref } from 'vue';
+import axios from 'axios'
 
-const getBook = (id:number) => {
+const getBook = (id: number) => {
   const book = ref(null);
-  const error = ref(null);
+  const error = ref<string | null>(null);
 
   const load = async () => {
     try {
-      const data = await fetch(`http://localhost:3000/books/${id}`);
-      if (!data.ok) {
-        throw Error('That book does not exist');
+      axios.get(`http://localhost:3000/books/${id}`).then((response) => {
+        book.value = response.data
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        error.value = err.message;
       }
-      book.value = await data.json();
-    } catch (err: any) {
-      error.value = err.message;
       console.log(error.value);
     }
   };

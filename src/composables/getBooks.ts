@@ -1,18 +1,19 @@
 import { ref } from 'vue';
+import axios from 'axios'
 
 const getBooks = () => {
   const books = ref([]);
-  const error = ref(null);
+  const error = ref<string | null>(null);
 
-  const load = async () => {
+  const load =() => {
     try {
-      const data = await fetch('http://localhost:3000/books');
-      if (!data.ok) {
-        throw Error('No data available');
+      axios.get('http://localhost:3000/books').then((response) => {
+        books.value = response.data
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        error.value = err.message;
       }
-      books.value = await data.json();
-    } catch (err: any) {
-      error.value = err.message;
       console.log(error.value);
     }
   };

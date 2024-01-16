@@ -1,26 +1,19 @@
 import { ref } from 'vue';
+import axios from 'axios'
+
 
 const deleteBook = (id: number) => {
   const error = ref(null);
-  const load = async () => {
+  const deleteBookById = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/books/${id}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (!response.ok) {
-        throw Error('Failed to delete the book');
-      }
-
-      return response;
+      axios.delete(`http://localhost:3000/books/${id}`).then((response) => response)
     } catch (err: any) {
       error.value = err.message;
       console.log(error.value);
     }
   };
 
-  return { error, load };
+  return { error, deleteBookById };
 };
 
 export default deleteBook;

@@ -1,14 +1,21 @@
 <template>
-      <BookDetails />
+  <BookDetails :book="book" :error="error" :id="id" />
 </template>
 
-<script>
-import BookDetails from '../components/BookDetails.vue'
+<script setup>
+import getBook from '../composables/getBook';
+import BookDetails from '../components/BookDetails.vue';
+import { useRoute } from 'vue-router';
 
-export default {
-  components: { BookDetails },
-};
+const route = useRoute();
+const { id } = route.params;
+const { book, error, load } = getBook(id);
+
+load();
+
+{
+  book, error, id;
+}
 </script>
 
-<style>
-</style>
+<style></style>

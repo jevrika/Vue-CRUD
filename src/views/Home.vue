@@ -8,31 +8,30 @@
       <BookList :books="books" />
     </div>
     <div v-else>
-      <Spinner />
+      <LoadingSpinner />
     </div>
   </div>
 </template>
 
-<script>
-import { defineComponent, onUpdated } from 'vue';
+<script setup>
 import BookList from '../components/BookList.vue';
 import getBooks from '../composables/getBooks';
-import Spinner from '../components/Spinner.vue';
+import LoadingSpinner from '../components/LoadingSpinner.vue';
+import { onMounted } from 'vue';
 
-export default defineComponent({
-  components: { BookList, Spinner },
-  setup() {
-    const { books, error, load } = getBooks();
+const { books, error, load } = getBooks();
 
-    load();
-    //   onUpdated(() => {
-    //     load();
-    // });
+load();
 
-    return { books, error };
-  },
-});
+onMounted(() => {
+  load()
+})
+
+{ books, error }
+
+  
 </script>
+
 
 <style>
 .bookList {
