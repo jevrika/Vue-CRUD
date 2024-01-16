@@ -2,7 +2,7 @@
   <BookDetails :book="book" :error="error" :id="id" />
 </template>
 
-<script setup lang="ts" >
+<script setup >
 import getBook from '../composables/getBook';
 import BookDetails from '../components/BookDetails.vue';
 import { useRoute } from 'vue-router';

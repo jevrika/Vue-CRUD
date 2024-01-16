@@ -21,7 +21,7 @@
     <div class="genres" v-for="genre in genres" :key="genre">
       {{ genre }}
     </div>
-    <button class="button" @click="notify">Add Book</button>
+    <button class="button">Add Book</button>
 
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </form>
@@ -30,10 +30,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+
 import addBook from '@/composables/addBook';
+
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
-import getBooks from '@/composables/getBooks';
 
 const image = ref<string>('');
 const title = ref<string>('');
@@ -59,9 +60,6 @@ const notify = () => {
     theme: 'auto',
   });
 };
-{
-  notify;
-}
 
 const handleSubmit = async () => {
   const book = {
@@ -74,6 +72,7 @@ const handleSubmit = async () => {
   };
 
   addBook(book);
+  notify();
   router.push('/');
   return { image, title, author, description, genre, genres, publishing_year, handleKeydown, handleSubmit };
 };
@@ -100,7 +99,7 @@ const handleSubmit = async () => {
 
 textarea {
   resize: vertical;
-  width: 100%;
+  width: 98%;
   height: 200px;
 }
 

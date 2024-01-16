@@ -2,43 +2,24 @@
   <div v-if="error">{{ error }}</div>
 
   <div v-if="book" class="wrapper">
-    <div class="leftSide">
+    <div class="top">
+      <h2 class="heading">{{ book.title }}</h2>
+      <p class="author">{{ book.author }}</p>
+      <p class="publishingYear">
+        Publishing year: <b>{{ book.publishing_year }}</b>
+      </p>
+    </div>
+    <div class="middle">
       <div class="imageWrapper">
         <img class="image" :src="book.image" />
-        <div class="genresWrapper">
-          <div class="genresImageWrapper">
-            <!-- <img class="genresImage" src="../assets/{{ book.genres.toLowerCase() }}.png" /> -->
-          </div>
-          <span class="genre" v-for="genre in book.genres" :key="genre">{{ genre }}</span>
-        </div>
       </div>
-    </div>
 
-    <div class="rightSide">
       <div class="textWrapper">
-        <h2 class="heading">{{ book.title }}</h2>
-        <p class="author">{{ book.author }}</p>
         <p class="description">{{ book.description }}</p>
-
-        <p class="publishingYear">
-          Publishing year: <b>{{ book.publishing_year }}</b>
-        </p>
       </div>
     </div>
-    <span @click="showButtons = !showButtons" class="material-icons"> keyboard_arrow_down </span>
-
-    <router-link class="link" :to="{ name: 'Home' }">X</router-link>
-      <div v-if="showButtons" class="buttonsWrap">
-      <router-link class="link" :to="{ name: 'BookDetails', params: { id: book.id } }">
-        <span class="material-icons"> import_contacts </span>
-      </router-link>
-
-      <span @click="deleteBookHandler" class="material-icons"> delete </span>
-       <!-- <span @click="$emit('delete-book', book.id)" class="material-icons"> delete </span> -->
-
-      <router-link class="link" :to="{ name: 'EditBook', params: { id: book.id } }">
-        <span class="material-icons"> edit </span>
-      </router-link>
+    <div class="genresWrapper">
+      <span class="genre" v-for="genre in book.genres" :key="genre">{{ genre }}</span>
     </div>
   </div>
   <div v-else>
@@ -48,66 +29,49 @@
 
 <script setup lang="ts">
 import LoadingSpinner from './LoadingSpinner.vue';
-import { defineProps, ref } from 'vue';
-import deleteBook from '../composables/deleteBook';
-import { useRoute,useRouter } from 'vue-router';
+import { defineProps } from 'vue';
+
 defineProps({
   book: {
     type: Object,
-    required: true
+    required: true,
   },
   error: String,
-  id: Number
-})
-
-const route = useRoute();
-const router = useRouter()
-const { id } = route.params;
-const showButtons = ref(false);
-
-const { error, deleteBookById } = deleteBook(Number(id));
-
-
-
-const deleteBookHandler =  () => {
-   deleteBookById();
-
-  router.push('/')
-  return { showButtons, error, deleteBookHandler };
-}
-
-
+  id: Number,
+});
 </script>
 
 <style scoped>
-.wrapper {
+/* .wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   flex-direction: column;
   justify-content: center;
-  height: 90vh;
-  padding: 10%;
+  padding: 100px;
   position: relative;
-}
-.leftSide {
-  display: flex;
+} */
+/* .middle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
-}
+  gap: 25px;
+  padding: 30px;
+} */
 
 .image {
   width: 400px;
   border-radius: 15px;
 }
-
+/* 
 .textWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 15px;
-}
+} */
 
 .heading {
-  font-size: 2.7rem;
+  margin: 0 0 10px 0;
+  font-size: 3.7rem;
 }
 
 .author {
@@ -119,16 +83,21 @@ const deleteBookHandler =  () => {
   font-size: 1.5rem;
   letter-spacing: 1px;
   text-align: start;
+  margin-bottom: 30px;
 }
 
-.genresWrapper {
+/* .genresWrapper {
   padding: 25px;
   display: flex;
   justify-content: center;
+  width: 100vw;
   text-transform: uppercase;
   font-size: 1.2rem;
   gap: 15px;
-}
+  position: absolute;
+  bottom: 0;
+  margin-top: 10px;
+} */
 
 .genre {
   background-color: #cedadc8d;
@@ -151,4 +120,169 @@ const deleteBookHandler =  () => {
 .publishingYear {
   font-size: 1.3rem;
 }
+
+@media only screen and (max-width: 600px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+  }
+
+  .image {
+    width: 300px;
+    border-radius: 15px;
+  }
+  .middle {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px;
+  }
+
+  .genresWrapper {
+    padding: 25px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+    position: relative;
+  }
+
+  .middle {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    gap: 25px;
+    padding: 50px;
+  }
+
+  .genresWrapper {
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    width: 80vw;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    gap: 15px;
+    position: absolute;
+    bottom: 0;
+    margin-top: 25px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+    position: relative;
+    margin-bottom: 50px;
+  }
+
+  .middle {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px;
+  }
+
+  .genresWrapper {
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    width: 85vw;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    gap: 15px;
+    position: absolute;
+    bottom: 0;
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .wrapper {
+    display: grid;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px;
+    position: relative;
+  }
+  .middle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px;
+  }
+  .genresWrapper {
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    gap: 15px;
+    position: absolute;
+    bottom: 0;
+    margin-top: 10px;
+  }
+
+  .textWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+@media only screen and (min-width: 1550px) {
+  .wrapper {
+    display: grid;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px;
+    position: relative;
+  }
+  .middle {
+    display: grid;
+    grid-template-columns: 400px 1000px;
+    justify-content: center;
+    gap: 50px;
+    padding: 30px;
+  }
+  .genresWrapper {
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    width: 95vw;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    gap: 15px;
+    position: absolute;
+    bottom: 0;
+    margin-top: 10px;
+  }
+
+  .textWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
 </style>

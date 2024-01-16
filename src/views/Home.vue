@@ -14,20 +14,25 @@
 </template>
 
 <script setup lang="ts">
-import BookList from '../components/BookList.vue';
-import getBooks from '../composables/getBooks';
+
 import LoadingSpinner from '../components/LoadingSpinner.vue';
+import BookList from '../components/BookList.vue';
+
 import { onMounted } from 'vue';
+
+import getBooks from '../composables/getBooks';
 import deleteBook from '@/composables/deleteBook';
 
 const { books, error, load } = getBooks();
 
-const fromEmit = (params: number) => {
-  deleteBookHandler(params);
-};
 onMounted(() => {
   load();
 });
+
+const fromEmit = (params: number) => {
+  deleteBookHandler(params);
+  
+};
 
 const deleteBookHandler = async (params: number) => {
   const { deleteBookById } = deleteBook(params);
@@ -50,5 +55,6 @@ const deleteBookHandler = async (params: number) => {
   margin: 0 auto;
   flex-grow: 1;
   flex-shrink: 1;
+  padding:50px;
 }
 </style>

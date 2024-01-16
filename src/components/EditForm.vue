@@ -28,7 +28,6 @@
 </template>
 
 <script>
-
 export default {
   props: ['id'],
   data() {
@@ -41,6 +40,8 @@ export default {
       publishing_year: '',
     };
   },
+
+  
 
   mounted() {
 
@@ -76,6 +77,7 @@ export default {
     },
 
   },
+  
 };
 </script>
 

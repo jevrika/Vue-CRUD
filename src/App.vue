@@ -14,6 +14,5 @@ import Navbar from './components/Navbar.vue'
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background-color: #eee;
-  padding: 25px;
 }
 </style>
