@@ -13,6 +13,11 @@
 .navbar {
   text-align: center;
   margin: 40px auto;
+  position: sticky;
+  background-color: #eee;
+  padding:20px;
+  top: 0;
+  z-index: 1;
 }
 .link {
   display: inline-block;

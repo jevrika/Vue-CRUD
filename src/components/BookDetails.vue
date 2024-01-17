@@ -21,6 +21,7 @@
     <div class="genresWrapper">
       <span class="genre" v-for="genre in book.genres" :key="genre">{{ genre }}</span>
     </div>
+    <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </div>
   <div v-else>
     <LoadingSpinner />
@@ -42,33 +43,11 @@ defineProps({
 </script>
 
 <style scoped>
-/* .wrapper {
-  display: grid;
-  flex-direction: column;
-  justify-content: center;
-  padding: 100px;
-  position: relative;
-} */
-/* .middle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-content: center;
-  gap: 25px;
-  padding: 30px;
-} */
 
 .image {
   width: 400px;
   border-radius: 15px;
 }
-/* 
-.textWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 15px;
-} */
-
 .heading {
   margin: 0 0 10px 0;
   font-size: 3.7rem;
@@ -86,19 +65,6 @@ defineProps({
   margin-bottom: 30px;
 }
 
-/* .genresWrapper {
-  padding: 25px;
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-  text-transform: uppercase;
-  font-size: 1.2rem;
-  gap: 15px;
-  position: absolute;
-  bottom: 0;
-  margin-top: 10px;
-} */
-
 .genre {
   background-color: #cedadc8d;
   padding: 10px 25px;
@@ -109,6 +75,7 @@ defineProps({
 
 .link {
   position: absolute;
+  margin-right: 10px;
   top: 0;
   right: 0;
   color: red;

@@ -4,6 +4,7 @@ export type Book = {
   title: string;
   author: string;
   description: string;
-  genres: string;
+  genre?: string;
+  genres: string[];
   publishing_year: number | string;
 };

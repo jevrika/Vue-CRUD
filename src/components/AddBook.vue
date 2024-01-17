@@ -10,7 +10,7 @@
     <input class="input" type="text" required v-model="author" />
 
     <label> Book description: </label>
-    <textarea required v-model="description" class="input"></textarea>
+    <textarea required v-model="description"></textarea>
 
     <label for="publishing_year"> Book publishing year </label>
     <input class="input" type="number" min="1700" max="2099" step="1" name="publishing_year" id="publishing_year" required v-model="publishing_year" />
@@ -21,7 +21,7 @@
     <div class="genres" v-for="genre in genres" :key="genre">
       {{ genre }}
     </div>
-    <button class="button">Add Book</button>
+    <button class="button" >Add Book</button>
 
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </form>
@@ -79,30 +79,6 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 5%;
-  position: relative;
-}
-
-.input {
-  font-size: 1rem;
-  padding: 10px;
-  border: none;
-  border-bottom: 2px solid #2d2d2d93;
-  margin-bottom: 10px;
-  background-color: #eee;
-}
-
-textarea {
-  resize: vertical;
-  width: 98%;
-  height: 200px;
-}
-
 .input:focus {
   outline: none;
 }
@@ -128,13 +104,207 @@ label {
   background-color: #b8d8be;
   border-radius: 15px;
 }
-.link {
-  position: absolute;
-  top: 0;
-  right: 0;
-  color: red;
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: 600;
+
+@media only screen and (max-width: 600px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+  }
+
+  .input {
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #2d2d2d93;
+    margin-bottom: 10px;
+    background-color: #eee;
+  }
+
+  textarea {
+    background-color: #eee;
+    border: 2px solid #2d2d2d93;
+    resize: vertical;
+    width: 98%;
+    height: 200px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+  }
+
+  .input {
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #2d2d2d93;
+    margin-bottom: 10px;
+    background-color: #eee;
+  }
+
+  textarea {
+    background-color: #eee;
+    border: 2px solid #2d2d2d93;
+    resize: vertical;
+    width: 98%;
+    height: 200px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+  }
+
+  .input {
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #2d2d2d93;
+    margin-bottom: 10px;
+    background-color: #eee;
+  }
+
+  textarea {
+    background-color: #eee;
+    border: 2px solid #2d2d2d93;
+    resize: vertical;
+    width: 98%;
+    height: 200px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 100px;
+    position: relative;
+  }
+
+  .input {
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #2d2d2d93;
+    margin-bottom: 10px;
+    background-color: #eee;
+  }
+
+  textarea {
+    background-color: #eee;
+    border: 2px solid #2d2d2d93;
+    resize: vertical;
+    width: 98%;
+    height: 200px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 1550px) {
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 50px 350px;
+    position: relative;
+  }
+
+  .input {
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #2d2d2d93;
+    margin-bottom: 10px;
+    background-color: #eee;
+  }
+
+  textarea {
+    background-color: #eee;
+    border: 2px solid #2d2d2d93;
+    resize: vertical;
+    width: 98%;
+    height: 200px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-right: 10px;
+  }
 }
 </style>
