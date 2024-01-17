@@ -2,17 +2,14 @@ import { ref } from 'vue';
 import axios from 'axios';
 
 const deleteBook = (id: number) => {
-  const books = ref([]);
-  const error = ref(null);
+  const error = ref<string | null>(null);
   const deleteBookById = async () => {
     try {
       await axios.delete(`http://localhost:3000/books/${id}`);
-    } catch (err: any) {
-      error.value = err.message;
-      console.log(error.value);
+    } catch (err) {
+      error.value = 'Something get wrong when you trie delete book';
     }
   };
-
   return { error, deleteBookById };
 };
 

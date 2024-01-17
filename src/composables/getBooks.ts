@@ -7,12 +7,9 @@ const getBooks = () => {
 
   const load = async () => {
     try {
-      axios.get('http://localhost:3000/books').then((response) => (books.value = response.data));
+      await axios.get('http://localhost:3000/books').then((response) => (books.value = response.data));
     } catch (err) {
-      if (err instanceof Error) {
-        error.value = err.message;
-      }
-      console.log(error.value);
+      error.value = 'Can\'t fetch book list';
     }
   };
 

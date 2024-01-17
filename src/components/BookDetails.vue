@@ -1,6 +1,4 @@
 <template>
-  <div v-if="error">{{ error }}</div>
-
   <div v-if="book" class="wrapper">
     <div class="top">
       <h2 class="heading">{{ book.title }}</h2>
@@ -23,13 +21,9 @@
     </div>
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </div>
-  <div v-else>
-    <LoadingSpinner />
-  </div>
 </template>
 
 <script setup lang="ts">
-import LoadingSpinner from './LoadingSpinner.vue';
 import { defineProps } from 'vue';
 
 defineProps({
@@ -37,13 +31,14 @@ defineProps({
     type: Object,
     required: true,
   },
-  error: String,
-  id: Number,
+  id : {
+    type: Number,
+    required: true
+  }, error :Error || undefined
 });
 </script>
 
 <style scoped>
-
 .image {
   width: 400px;
   border-radius: 15px;

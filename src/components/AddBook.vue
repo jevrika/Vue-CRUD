@@ -1,27 +1,27 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="form">
+  <form class="form">
     <label> Book cover image: </label>
-    <input class="input" type="text" required v-model="image" />
+    <input class="input" type="text" required v-model="book.image" />
 
     <label> Book title: </label>
-    <input class="input" type="text" required v-model="title" />
+    <input class="input" type="text" required v-model="book.title" />
 
     <label> Book author: </label>
-    <input class="input" type="text" required v-model="author" />
+    <input class="input" type="text" required v-model="book.author" />
 
     <label> Book description: </label>
-    <textarea required v-model="description"></textarea>
+    <textarea required v-model="book.description"></textarea>
 
     <label for="publishing_year"> Book publishing year </label>
-    <input class="input" type="number" min="1700" max="2099" step="1" name="publishing_year" id="publishing_year" required v-model="publishing_year" />
+    <input class="input" type="number" min="1700" max="2099" step="1" name="publishing_year" id="publishing_year" required v-model="book.publishing_year" />
 
     <label for="genres"> Book genres (Enter to add genre)</label>
-    <input class="input" @keydown.enter.prevent="handleKeydown" type="text" v-model="genre" />
+    <input class="input" @keydown.enter.prevent="handleKeydown" type="text" v-model="book.genre" />
 
-    <div class="genres" v-for="genre in genres" :key="genre">
+    <div class="genres" v-for="genre in book.genres" :key="genre">
       {{ genre }}
     </div>
-    <button class="button" >Add Book</button>
+    <button @click="$emit('bookAdded', book)" class="button">Add Book</button>
 
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </form>
@@ -29,52 +29,27 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { Book } from '@/Book';
 
-import addBook from '@/composables/addBook';
-
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
-
-const image = ref<string>('');
-const title = ref<string>('');
-const author = ref<string>('');
-const description = ref<string>('');
-const genre = ref<string>('');
-const genres = ref<string[]>([]);
-const publishing_year = ref<string>('');
-
-const router = useRouter();
+const book= ref<Book>({
+  image: '',
+  title: '',
+  author: '',
+  description: '',
+  genre: '',
+  genres: [],
+  publishing_year: '',
+});
 
 const handleKeydown = () => {
-  if (!genres.value.includes(genre.value)) {
-    genre.value = genre.value.replace(/\s/, ''); // removes all whitespace
-    genres.value.push(genre.value);
+  if (book.value && book.value.genre) {
+    if (!book.value.genres.includes(book.value.genre)) {
+      console.log(book.value.genre)
+      book.value.genre = book.value.genre.replace(/\s/, ''); // removes all whitespace
+      book.value.genres.push(book.value.genre);
+    }
+    book.value.genre = '';
   }
-  genre.value = '';
-};
-
-const notify = () => {
-  toast('You added book to book list!', {
-    autoClose: 4000,
-    theme: 'auto',
-  });
-};
-
-const handleSubmit = async () => {
-  const book = {
-    image: image.value,
-    title: title.value,
-    author: author.value,
-    description: description.value,
-    genres: genres.value,
-    publishing_year: publishing_year.value,
-  };
-
-  addBook(book);
-  notify();
-  router.push('/');
-  return { image, title, author, description, genre, genres, publishing_year, handleKeydown, handleSubmit };
 };
 </script>
 
@@ -186,7 +161,6 @@ label {
 }
 
 @media only screen and (min-width: 768px) {
-
   .form {
     display: flex;
     flex-direction: column;
@@ -227,7 +201,6 @@ label {
 }
 
 @media only screen and (min-width: 992px) {
-
   .form {
     display: flex;
     flex-direction: column;
@@ -268,7 +241,6 @@ label {
 }
 
 @media only screen and (min-width: 1550px) {
-
   .form {
     display: flex;
     flex-direction: column;

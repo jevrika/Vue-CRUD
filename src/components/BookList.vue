@@ -1,6 +1,6 @@
 <template>
   <div v-for="book in books.slice().reverse()" :key="book.id">
-    <SingleBook :book="book" @bookDeleted="$emit('booksUpdated', book.id)" />
+    <SingleBook :book="book" @bookDeleted="$emit('bookDeleted', book.id)" />
   </div>
 </template>
 

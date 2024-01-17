@@ -1,61 +1,65 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="form" v-if="book">
+  <form class="form" v-if="book">
     <label> Book cover image: </label>
-    <input class="input" type="text" required v-model="book.image" />
+    <input class="input" type="text" required v-model="bookData.image" />
 
     <label> Book title: </label>
-    <input class="input" type="text" required v-model="book.title" />
+    <input class="input" type="text" required v-model="bookData.title" />
 
     <label> Book author: </label>
-    <input class="input" type="text" required v-model="book.author" />
+    <input class="input" type="text" required v-model="bookData.author" />
 
     <label> Book description: </label>
-    <textarea required v-model="book.description" class="input"></textarea>
+    <textarea required v-model="bookData.description" class="input"></textarea>
 
     <label for="genres"> Book genres (Enter to add genre)</label>
-    <input class="input" @keydown.enter.prevent="handleKeydown" type="text" v-model="book.genre" />
+    <input class="input" @keydown.enter.prevent="handleKeydown" type="text" v-model="bookData.genre" />
 
     <div class="genres" v-for="genre in book.genres" :key="genre">
       {{ genre }}
     </div>
 
     <label for="publishing_year"> Book publishing year </label>
-    <input class="input" type="number" min="1700" max="2099" step="1" value="2000" name="publishing_year" id="publishing_year" required v-model="book.publishing_year" />
+    <input class="input" type="number" min="1700" max="2099" step="1" value="2000" name="publishing_year" id="publishing_year" required v-model="bookData.publishing_year" />
 
-    <button class="button">Update Book</button>
+    <button class="button" @click="$emit('bookEdited', book.id, bookData)">Update Book</button>
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </form>
 </template>
 
 <script setup lang="ts">
+import { Book } from '@/Book';
 import { defineProps } from 'vue';
-import getBook from '../composables/getBook';
-import editBook from '@/composables/editBook';
-import router from '@/router';
 
 const props = defineProps({
   id: {
     type: Number,
     required: true,
   },
+  book: {
+    type: Object,
+    required: true,
+  },
 });
 
-const { book, load } = getBook(props.id);
-load();
-
-const handleKeydown = () => {
-  if (book.value && book.value.genre) {
-    if (!book.value.genres.includes(book.value.genre)) {
-      book.value.genre = book.value.genre.replace(/\s/, ''); // removes all whitespace
-      book.value.genres.push(book.value?.genre);
-    }
-    book.value.genre = '';
-  }
+const bookData:Book = {
+  image: props.book.image,
+  title: props.book.title,
+  author: props.book.author,
+  description: props.book.description,
+  genre: props.book.genre,
+  genres: props.book.genres,
+  publishing_year: props.book.publishing_year,
 };
 
-const handleSubmit = () => {
-  editBook(props.id, book.value);
-  router.push('/');
+const handleKeydown = () => {
+  if (bookData && bookData.genre) {
+    if (!bookData.genres.includes(bookData.genre)) {
+      bookData.genre = bookData.genre.replace(/\s/, ''); // removes all whitespace
+      bookData.genres.push(bookData?.genre);
+    }
+    bookData.genre = '';
+  }
 };
 </script>
 

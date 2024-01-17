@@ -9,10 +9,7 @@ const editBook = async (id: number, data: Book | undefined) => {
     delete data?.genre;
     await axios.patch(`http://localhost:3000/books/${id}`, data);
   } catch (err) {
-    if (err instanceof Error) {
-      error.value = err.message;
-      console.error(error.value);
-    }
+    error.value = 'Can\'t load edit form';
   }
 
   return { error };

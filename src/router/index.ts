@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import AddBook from '../views/AddView.vue';
 import EditBook from '../views/EditView.vue';
 import BookDetails from '../views/BookDetailsView.vue';
+import NotFound from '@/views/NotFound.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -28,16 +29,16 @@ const routes: Array<RouteRecordRaw> = [
     component: EditBook,
     props: true,
   },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
+  },
 ];
-
-
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-
 });
-
-
 
 export default router;

@@ -1,11 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="home">
-    <div v-if="error">
-      <h1>{{ error }}</h1>
-    </div>
+    <div v-if="error" class="error">{{ error }}</div>
     <div class="bookList" v-if="books.length">
-      <BookList :books="books" @booksUpdated="fromEmit" />
+      <BookList :books="books" @bookDeleted="fromEmit" />
     </div>
     <div v-else>
       <LoadingSpinner />
@@ -14,9 +12,9 @@
 </template>
 
 <script setup lang="ts">
-
 import LoadingSpinner from '../components/LoadingSpinner.vue';
-import BookList from '../components/BookList.vue';
+import BookList from '@/components/BookList.vue';
+
 
 import { onMounted } from 'vue';
 
@@ -31,7 +29,6 @@ onMounted(() => {
 
 const fromEmit = (params: number) => {
   deleteBookHandler(params);
-  
 };
 
 const deleteBookHandler = async (params: number) => {
@@ -40,13 +37,13 @@ const deleteBookHandler = async (params: number) => {
   load();
   return { error, deleteBookHandler };
 };
-
-{
-  error;
-}
 </script>
 
-<style>
+<style scoped>
+.error {
+  color: red;
+  font-size: 1.5rem;
+}
 .bookList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -55,6 +52,6 @@ const deleteBookHandler = async (params: number) => {
   margin: 0 auto;
   flex-grow: 1;
   flex-shrink: 1;
-  padding:50px;
+  padding: 50px;
 }
 </style>

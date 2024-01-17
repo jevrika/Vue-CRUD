@@ -8,14 +8,11 @@ const getBook = (id: number) => {
 
   const load = async () => {
     try {
-      axios.get(`http://localhost:3000/books/${id}`).then((response) => {
+      await axios.get(`http://localhost:3000/books/${id}`).then((response) => {
         book.value = response.data
       });
     } catch (err) {
-      if (err instanceof Error) {
-        error.value = err.message;
-      }
-      console.log(error.value);
+      error.value = 'Can\'t fetch book data';
     }
   };
 
