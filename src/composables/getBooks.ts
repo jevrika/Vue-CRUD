@@ -7,7 +7,7 @@ const getBooks = () => {
 
   const load = async () => {
     try {
-      await axios.get('http://localhost:3000/books').then((response) => (books.value = response.data));
+      await axios.get('http://localhost:3000/books').then((response) => (books.value = response.data.reverse()));
     } catch (err) {
       error.value = 'Can\'t fetch book list';
     }

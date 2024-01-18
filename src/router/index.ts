@@ -34,6 +34,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'NotFound',
     component: NotFound,
   },
+  
 ];
 
 const router = createRouter({

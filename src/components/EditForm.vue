@@ -1,13 +1,13 @@
 <template>
-  <form class="form" v-if="book">
+  <form @submit.prevent="" class="form" v-if="book">
     <label> Book cover image: </label>
-    <input class="input" type="text" required v-model="bookData.image" />
+    <input class="input" type="text" required v-model="bookData.image"/>
 
     <label> Book title: </label>
     <input class="input" type="text" required v-model="bookData.title" />
 
     <label> Book author: </label>
-    <input class="input" type="text" required v-model="bookData.author" />
+    <input class="input" type="text"  v-model="bookData.author" />
 
     <label> Book description: </label>
     <textarea required v-model="bookData.description" class="input"></textarea>
@@ -22,14 +22,14 @@
     <label for="publishing_year"> Book publishing year </label>
     <input class="input" type="number" min="1700" max="2099" step="1" value="2000" name="publishing_year" id="publishing_year" required v-model="bookData.publishing_year" />
 
-    <button class="button" @click="$emit('bookEdited', book.id, bookData)">Update Book</button>
+    <button class="button" @click="emits('bookEdited', book.id, bookData)">Update Book</button>
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </form>
 </template>
 
 <script setup lang="ts">
 import { Book } from '@/Book';
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   id: {
@@ -52,6 +52,8 @@ const bookData:Book = {
   publishing_year: props.book.publishing_year,
 };
 
+const emits = defineEmits(['bookEdited']);
+
 const handleKeydown = () => {
   if (bookData && bookData.genre) {
     if (!bookData.genres.includes(bookData.genre)) {
@@ -61,6 +63,7 @@ const handleKeydown = () => {
     bookData.genre = '';
   }
 };
+
 </script>
 
 <style scoped>

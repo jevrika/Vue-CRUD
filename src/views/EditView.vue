@@ -1,4 +1,7 @@
 <template>
+  <div v-if="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
   <div v-if="book">
     <EditForm :id="Number(id)" :book="book" @bookEdited="fromEmit" />
   </div>
@@ -14,11 +17,16 @@ import { Book } from '@/Book';
 
 import router from '@/router';
 
+import { ref } from 'vue';
+
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
 const route = useRoute();
-const { id } = route.params;
+const id = Number(route.params.id);
+
+let errorMessage = ref<string>('');
+
 
 const notify = () => {
   toast('You edited book!', {
@@ -27,8 +35,8 @@ const notify = () => {
   });
 };
 
-
 const { book, load } = getBook(Number(id));
+
 load();
 
 const fromEmit = (id: number, data: Book) => {
@@ -36,9 +44,13 @@ const fromEmit = (id: number, data: Book) => {
 };
 
 const handleSubmit = (id: number, bookData: Book) => {
-  editBook(id, bookData);
-  router.push('/');
-  notify()
+  if (bookData.image !== '' && bookData.title !== '' && bookData.author !== '' && bookData.description && bookData.genres.length > 0 && bookData.publishing_year !== '') {
+    editBook(id, bookData);
+    router.push('/');
+    notify();
+  } else {
+    errorMessage.value = 'You need to fill all form fields';
+  }
 };
 </script>
 

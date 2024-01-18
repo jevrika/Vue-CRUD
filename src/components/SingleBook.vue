@@ -19,7 +19,7 @@
         <span class="material-icons"> import_contacts </span>
       </router-link>
 
-      <span @click="(notify()), $emit('bookDeleted', book.id)" class="material-icons"> delete </span>
+      <span @click="notify(), emits('bookDeleted', book.id) " class="material-icons"> delete </span>
 
       <router-link class="link" :to="{ name: 'EditBook', params: { id: book.id } }">
         <span class="material-icons"> edit </span>
@@ -29,17 +29,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, defineEmits } from 'vue';
 
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
-const notify = () => {
-  toast('Book deleted!', {
-    autoClose: 2000,
-    theme: 'auto',
-  });
-};
+const showButtons = ref(false);
+
+const emits = defineEmits(['bookDeleted']);
 
 defineProps({
   book: {
@@ -48,10 +45,18 @@ defineProps({
   },
 });
 
-const showButtons = ref(false);
+const notify = () => {
+  toast('Book deleted!', {
+    autoClose: 2000,
+    theme: 'auto',
+  });
+};
 </script>
 
 <style scoped>
+
+
+
 .book {
   display: flex;
   flex-direction: column;

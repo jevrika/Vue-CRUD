@@ -15,7 +15,6 @@
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 import BookList from '@/components/BookList.vue';
 
-
 import { onMounted } from 'vue';
 
 import getBooks from '../composables/getBooks';

@@ -1,23 +1,23 @@
 <template>
   <div v-if="book" class="wrapper">
     <div class="top">
-      <h2 class="heading">{{ book.title }}</h2>
-      <p class="author">{{ book.author }}</p>
+      <h2 class="heading">{{ props.book.title }}</h2>
+      <p class="author">{{ props.book.author }}</p>
       <p class="publishingYear">
-        Publishing year: <b>{{ book.publishing_year }}</b>
+        Publishing year: <b>{{ props.book.publishing_year }}</b>
       </p>
     </div>
     <div class="middle">
       <div class="imageWrapper">
-        <img class="image" :src="book.image" />
+        <img class="image" :src="props.book.image" />
       </div>
 
       <div class="textWrapper">
-        <p class="description">{{ book.description }}</p>
+        <p class="description">{{ props.book.description }}</p>
       </div>
     </div>
     <div class="genresWrapper">
-      <span class="genre" v-for="genre in book.genres" :key="genre">{{ genre }}</span>
+      <span class="genre" v-for="genre in props.book.genres" :key="genre">{{ genre }}</span>
     </div>
     <router-link class="link" :to="{ name: 'Home' }">X</router-link>
   </div>
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-defineProps({
+const props = defineProps({
   book: {
     type: Object,
     required: true,
@@ -34,7 +34,7 @@ defineProps({
   id : {
     type: Number,
     required: true
-  }, error :Error || undefined
+  }
 });
 </script>
 
